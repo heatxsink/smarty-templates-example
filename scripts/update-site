@@ -1,0 +1,17 @@
+#!/bin/bash
+
+USERNAME=ubuntu
+REMOTE_HOSTNAME=nickgranado.com
+REMOTE_DIR=/var/www/nickgranado/smarty
+HTDOCS_DIR=../htdocs
+LIB_DIR=../lib
+VIEWS_DIR=../views
+
+echo "Resetting Ownership ...";
+/usr/bin/ssh $USERNAME@$REMOTE_HOSTNAME "sudo chown -R $USERNAME:$USERNAME $REMOTE_DIR/"
+echo "Pushing ...";
+/usr/bin/rsync -avz $VIEWS_DIR $LIB_DIR $HTDOCS_DIR $USERNAME@$REMOTE_HOSTNAME:$REMOTE_DIR/
+echo "Setting ownership ...";
+/usr/bin/ssh $USERNAME@$REMOTE_HOSTNAME "sudo chown -R www-data:www-data $REMOTE_DIR/"
+
+growlnotify -n smarty.nickgranado.com -m "site has been pushed to $REMOTE_HOSTNAME"
