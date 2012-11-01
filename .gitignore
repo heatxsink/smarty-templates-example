@@ -1,0 +1,10 @@
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.gz
+*.pyc
+*.pyo
+*.tmproj
+.idea
+.DS_Store
