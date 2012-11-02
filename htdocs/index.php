@@ -8,8 +8,9 @@ if($DEBUG_MODE) {
 	error_reporting(E_ALL ^ E_NOTICE);
 }
 
-Template::SetDebugMode($DEBUG_MODE);
-Template::SetParameter('developer_mode', $DEBUG_MODE);
-Template::SetParameter('page_title', 'Sample Site');
-Template::SetParameter('content', 'Your content goes here.');
-Template::Display('index.html');
+$template = Template::GetInstance();
+$template->SetDebugMode($DEBUG_MODE);
+$template->SetParameter('developer_mode', $DEBUG_MODE);
+$template->SetParameter('page_title', 'Sample Site');
+$template->SetParameter('content', 'Your content goes here.');
+$template->Display('index.html');

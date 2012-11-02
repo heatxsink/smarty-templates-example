@@ -2,44 +2,55 @@
 
 class Template {
 	
-	protected static $DEBUGGING = true; 
-	protected static $TEMPLATE_DIRECTORY = '../views/templates';
-	protected static $COMPILE_DIRECTORY = '../views/templates_c';
-	protected static $CACHE_DIRECTORY = '../views/cache';
-	protected static $CONFIG_DIRECTORY = '../views/configs';
+	private static $DEBUGGING = true; 
+	private static $TEMPLATE_DIRECTORY = '../views/templates';
+	private static $COMPILE_DIRECTORY = '../views/templates_c';
+	private static $CACHE_DIRECTORY = '../views/cache';
+	private static $CONFIG_DIRECTORY = '../views/configs';
 	
-	protected static $template_engine = NULL;
+	private $template_engine = NULL;
+	private static $instance = NULL;
 	
-	public function __construct() {}
-	public function __destruct() {}
-	public function __clone()    {}
-	
-	public static function Display($template) {
+	private function __construct() {
 		
-		self::getTemplateEngine()->display($template);
+		$this->template_engine = new Smarty();
+		$this->template_engine->debugging = self::$DEBUGGING;
+		$this->template_engine->template_dir = self::$TEMPLATE_DIRECTORY;
+		$this->template_engine->compile_dir = self::$COMPILE_DIRECTORY;
+		$this->template_engine->cache_dir = self::$CACHE_DIRECTORY;
+		$this->template_engine->config_dir = self::$CONFIG_DIRECTORY;
 	}
 	
-	public static function SetParameter($key, $value) {
+	public function __destruct() {
 		
-		self::getTemplateEngine()->assign($key, $value);
+		/* Left Empty */
+	}
+	private function __clone() {
+		
+		/* Left Empty */
 	}
 	
-	public static function SetDebugMode($value) {
+	public static function GetInstance() {
 		
-		self::getTemplateEngine()->debugging = $value;
-	}
-	
-	public static function getTemplateEngine() {
-		
-		if (!self::$template_engine) {
-			self::$template_engine = new Smarty();
-			self::$template_engine->debugging = self::$DEBUGGING;
-			self::$template_engine->template_dir = self::$TEMPLATE_DIRECTORY;
-			self::$template_engine->compile_dir = self::$COMPILE_DIRECTORY;
-			self::$template_engine->cache_dir = self::$CACHE_DIRECTORY;
-			self::$template_engine->config_dir = self::$CONFIG_DIRECTORY;
+		if (!self::$instance) {
+			self::$instance = new Template();
 		}
 		
-		return self::$template_engine;
+		return self::$instance;
+	}
+	
+	public function Display($template) {
+		
+		$this->template_engine->display($template);
+	}
+	
+	public function SetParameter($key, $value) {
+		
+		$this->template_engine->assign($key, $value);
+	}
+	
+	public function SetDebugMode($value) {
+		
+		$this->template_engine->debugging = $value;
 	}
 }
