@@ -1,9 +1,7 @@
 smarty-templates-example
 ========================
 
-### Setup ###
-
-Make sure you set the proper permissions on *templates_c* and *cache directories*.
+### To Run This Example ###
 
 1. point the webserver of your choice's document root at /htdocs
 1. chmod 777 /views/templates_c
